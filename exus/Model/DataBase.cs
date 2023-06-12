@@ -6,19 +6,23 @@ namespace exus.Model
     internal class Database
     {
         Controller controller;
-        int pos, size = 0;
+        int pos, size = 0, randnum;
         string mis_text;
+        Random rand;
         public Database(Controller cr) 
         { 
-            controller = cr; pos = 0; 
+            controller = cr; 
+            pos = 0; 
         }
         public string SetText()
         {
+            rand = new Random();
+            randnum = rand.Next(0,3);
             string temp = File.ReadAllText("text.txt");
             string[] text = temp.Split('\n');
-            mis_text = temp;
-            size = mis_text.Length;
-            return text[0];
+            mis_text = text[randnum];
+            size = mis_text.Length - 1;
+            return text[randnum];
         }
         public void TextCheck(char a)
         {
@@ -26,7 +30,7 @@ namespace exus.Model
             {
                 pos++;
                 controller.Correct(a);
-                if (size  == pos)
+                if (size == pos)
                 {
                     controller.End();
                 }

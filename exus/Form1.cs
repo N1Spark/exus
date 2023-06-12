@@ -12,7 +12,7 @@ namespace exus
         static Controller controller;
         Task time;
         static int timer = 0;
-        int mistake = 0;
+        int mistake = 0, charcount = 0;
         static bool end = false;
         static Label label_time = null;
         public Form1()
@@ -66,6 +66,8 @@ namespace exus
             time = new Task(Timer);
             time.Start();
             label9.Text = controller.SetText();
+            charcount = label9.Text.Length - 1;
+            label2.Text = charcount.ToString();
         }
 
         private static void Timer()
@@ -74,7 +76,7 @@ namespace exus
             {
                 Thread.Sleep(1000);
                 timer++;
-                label_time.Text = timer.ToString() + " с";
+                label_time.Text = timer.ToString() + " s";
             }
         }
         public void Mistake()
@@ -84,6 +86,8 @@ namespace exus
         }
         public void Correct(char a)
         {
+            charcount--;
+            label2.Text = charcount.ToString();
             label10.Text += a;
         }
         private void resultsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -92,7 +96,6 @@ namespace exus
         }
         public void End()
         {
-            button1.Enabled = true;
             end = true;
             time.Wait();
             controller.AddResult(mistake, timer);
